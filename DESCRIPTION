@@ -1,9 +1,11 @@
 Package: pelletreachr
-Title: What the Package Does (One Line, Title Case)
+Title: Tools for Processing Pellet Reaching Behavioral Data
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Anne", "Bakker", , "anne.bakker@student.hu.nl", role = c("aut", "cre"))
+Description: Provides functions to read, validat, and filter behavioral pellet reaching
+data stored in Excel files, including validation of required columns and selection
+of complete observations.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
