@@ -19,8 +19,8 @@
 #' helper_check_required_columns(df, c("a", "b", "c"))
 #' }
 #'
-helper_check_required_columns <- function(df, required_cols) {
-  missing_cols <- setdiff(required_cols, colnames(df))
+helper_check_required_columns <- function(filtered_data, required_cols) {
+  missing_cols <- setdiff(required_cols, colnames(filtered_data))
   if (length(missing_cols) > 0) {
     stop(paste("Dataframe is missing the following required columns:",
                paste(missing_cols, collapse = ", ")))
