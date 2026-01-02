@@ -19,13 +19,9 @@ This helper function checks whether a dataframe contains all required columns.
 If any columns are missing, the function stops and returns an error message.
 }
 \examples{
-df <- data.frame(a = 1:3, b = 4:6)
-required_cols <- c("a", "b")
-helper_check_required_columns(df, required_cols)
-
-# This will produce an error because column "c" is missing:
+ df <- data.frame(a = 1, b = 2)
+helper_check_required_columns(df, c("a", "b")) # returns TRUE
 \dontrun{
-helper_check_required_columns(df, c("a", "b", "c"))
+helper_check_required_columns(df, c("a", "c")) # would throw an error
 }
-
 }

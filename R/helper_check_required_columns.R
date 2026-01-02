@@ -10,17 +10,13 @@
 #' @export
 #'
 #' @examples
-#' df <- data.frame(a = 1:3, b = 4:6)
-#' required_cols <- c("a", "b")
-#' helper_check_required_columns(df, required_cols)
-#'
-#' # This will produce an error because column "c" is missing:
+#'  df <- data.frame(a = 1, b = 2)
+#' helper_check_required_columns(df, c("a", "b")) # returns TRUE
 #' \dontrun{
-#' helper_check_required_columns(df, c("a", "b", "c"))
+#' helper_check_required_columns(df, c("a", "c")) # would throw an error
 #' }
-#'
-helper_check_required_columns <- function(filtered_data, required_cols) {
-  missing_cols <- setdiff(required_cols, colnames(filtered_data))
+helper_check_required_columns <- function(df, required_cols) {
+  missing_cols <- setdiff(required_cols, colnames(df))
   if (length(missing_cols) > 0) {
     stop(paste("Dataframe is missing the following required columns:",
                paste(missing_cols, collapse = ", ")))

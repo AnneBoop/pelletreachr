@@ -20,7 +20,7 @@
 #' }
 
 read_filter_data <- function(file, sheet) {
-  df <- readxl::read_excel(file, sheet = sheet)
+ data <- readxl::read_excel(file, sheet = sheet)
 
   required_cols <- c(
     "First trial success",
@@ -33,16 +33,16 @@ read_filter_data <- function(file, sheet) {
   )
 
   # Check of alle vereiste kolommen aanwezig zijn
-  helper_check_required_columns(df, required_cols)
+  helper_check_required_columns(data, required_cols)
 
   # Keep only rats with 20 grasps in all conditions
-  df <- dplyr::ungroup(
+  data <- dplyr::ungroup(
     dplyr::filter(
-      dplyr::group_by(df, Rat_number),
+      dplyr::group_by(data, Rat_number),
       all(`Total grasps` == 20)
     )
   )
 
-  return(df)
+  return(data)
 }
 
