@@ -1,0 +1,112 @@
+---
+title: "Analyse van Pellet Reaching Test data met pelletreachr"
+author: "Anne Bakker"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pelletreachr_workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(pelletreachr)
+```
+
+# Introductie
+`pelletreachr` is een R-package voor het analyseren en visualiseren van gedragsdata afkomstig uit de Pellet Reaching Test bij ratten.
+Het package is ontworpen als een duidelijke analysepipeline:
+Van ruwe Excl-bestanden tot overzichtelijke figuren die direct geëxporteerd kunnen worden voor rapportage of publicatie. Deze vignette laat stap voor stap zien hoe het package gebruikt kan worden in een typische analyseworkflow.
+
+# Gebruik van pelletreachr in een analysepipeline
+`pelletreachr` is ontworpen om te worden gebruikt als een analysepipeline, waarbij elke functie een specifieke stap in het analyseproces uitvoert. De output van elke stap kan direct worden doorgegeven aan de volgende functie.
+
+# Overzicht van de analysepipeline
+1. Validatie van inputdata `helper_check_required_columns.R`
+2. Inlezen en filteren van gedragsdata `read_filter_data.R`
+3. Berekenen van prestatiepercentages `calculate_percentage.R`
+4. Omzetten naar long format voor visualisatie `make_long_format.R`
+5. Visualisatie van resultaten per rat en conditie `plot_significance.R`
+6. Exporten van figuren naar PDF `plot_to_pdf.R`
+
+Elke stap wordt hieronder toegelicht.
+
+# 1. Validatie van inputdata
+Voordat analyses worden uitgevoerd, is het belangrijk om te controleren of de inputdata alle vereiste kolommen bevat.
+
+```{r eval=FALSE, echo=TRUE}
+heper_check_required_columns(data)
+```
+
+Deze functie controleert of essentiële kolommen aanwezig zijn en geeft een foutmelding wanneer dit niet het geval is. Dit voorkomt fouten verderop in de analyse.
+
+# 2. Inlezen n filteren van gedragsdata
+Ruwe gedragsdata worden ingelezen vanuit Excel-bestanden en gefilterd op complete observaties.
+
+```{r eval=FALSE, echo=TRUE}
+data <- read_filter_data("voorbeeld_data.xlsx")
+```
+
+Deze stapt zorgt ervoor dat alleen valide en bruikbare data worden meegenomen in de verdere analyse.
+
+# 3. Berekenen van prestatiepercentages
+Na het inlezen van de data worden prestatiepercentages berekend, bijvoorbeeld
+het percentage succesvolle pogingen per rat of conditie.
+
+```{r eval=FALSE, echo=TRUE}
+percentage_data <- calculate_percentage(data)
+```
+
+# 4. Data omzetten naar long format
+Voor visualisatie wordt de data omgezet naar een long format, wat goed aansluit bij `ggplot2`.
+
+```{r eval=FALSE, echo=TRUE}
+long_data <- make_long_format(percentage_data)
+```
+
+Deze structuur maakt het eenvoudig om verschillende condities en metingen in één plot weer te geven.
+
+# 5. Visualisatie van resultaten
+Resultaten kunnen worden gevisualiseerd per rat en conditie, inclusief statistische significantie-indicaties.
+
+```{r eval=FALSE, echo=TRUE}
+plot <- plot_significance(long_data)
+plot
+```
+
+De functie maakt gebruik van `ggplot2` en `ggsignif` om overzichtelijke en informatieve figuren te genereren.
+
+# 6. Exporteren van figuren naar PDF
+Figuuroutput kan eenvoudig worden geëxporteerd naar PDF-formaat:
+
+```{r eval=FALSE, echo=TRUE}
+plot_to_pdf(plot, filename = "pellet_reaching_resultaten.pdf")
+```
+
+Dit is handig voor rapporten, portfolio’s of wetenschappelijke presentaties.
+
+# Voorbeeld
+In dit voorbeeld gebruiken we een meegeleverde voorbeeld-dataset om de volledige workflow te demonstreren.
+
+```{r}
+example_file <- system.file(
+  "extdata",
+  "example_pellet_data.xlsx",
+  package = "pelletreachr"
+)
+example_file
+
+  read_filter_data(example_file, sheet = 2) |>
+  calculate_percentage() |>
+  make_long_format() |>
+  plot_significance()
+
+``` 
+
+Door in normale omstandigheden de plot om te zetten in pdf is de schaal beter, en is de grafiek duidelijk te zien.
