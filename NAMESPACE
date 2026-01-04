@@ -3,5 +3,6 @@
 export(calculate_percentage)
 export(helper_check_required_columns)
 export(make_long_format)
-export(plot_results)
+export(plot_significance)
+export(plot_to_pdf)
 export(read_filter_data)
